@@ -1,0 +1,52 @@
+
+:::::: Comandos para a criação do banco e as tabelas :::::
+
+CREATE DATABASE "treinamento-jsp"
+  WITH OWNER = postgres
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'Portuguese_Brazil.1252'
+       LC_CTYPE = 'Portuguese_Brazil.1252'
+       CONNECTION LIMIT = -1;
+
+===========================================================
+
+
+CREATE TABLE public.model_login
+(
+  login character varying(200),
+  senha character varying(200),
+  CONSTRAINT login_unique UNIQUE (login)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.model_login
+  OWNER TO postgres;
+  
+ ===========================================================
+ 
+ INSERT INTO public.model_login(
+            login, senha)
+    VALUES ('admin', 'admin');
+ 
+ ===========================================================
+ 
+alter table model_login add id serial primary key 
+
+alter table model_login add nome character varying(300)
+
+alter table model_login add email character varying(300) 
+
+ ============ CRIAÇÃO DA TABELA TELEFONE ====================
+
+create table telefone (
+
+id integer not null default nextval('telefone_seq'::regclass),
+numero character varying(50) not null,
+usuario_pai_id bigint not null,
+usuario_cad_id bigint not null,
+
+constraint telefone_pkey primary key (id),
+constraint usuario_pai_fk foreign key (usuario_pai_id) references model_login (id),
+constraint usuario_cad_fk foreign key (usuario_cad_id) references model_login (id)  
